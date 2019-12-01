@@ -94,7 +94,7 @@ module.exports.myRequests = async (req, res) => {
 
         }).then(value => res.json(value))
     } catch (e) {
-        // errorHandler(res, e);
+        // errorHandler(res, e)
     }
 };
 module.exports.friendsRequest = (req, res) => {
