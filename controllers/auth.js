@@ -6,8 +6,6 @@ const keys = require('../configs/keys');
 
 module.exports.login = async function (req, res) {
     try {
-
-
         const candidate = JSON.parse(new Buffer.from(req.body, 'base64').toString());
         const user = await User.findOne({
             where: {
@@ -29,10 +27,10 @@ module.exports.login = async function (req, res) {
         }
         res.status(418).json({success: false});
     } catch (e) {
-
-        }
-
+        console.log(e)
+    }
 };
+
 
 module.exports.register = async function (req, res) {
     try {
@@ -48,8 +46,6 @@ module.exports.register = async function (req, res) {
             let user = await User.create({
                 email: req.body.email,
                 password: bcrypt.hashSync(password, salt),
-
-
                 profile: {
                     sex: req.body.profile.sex,
                     age: req.body.profile.age,
@@ -57,21 +53,14 @@ module.exports.register = async function (req, res) {
                     surname: req.body.profile.surname,
                     admin: isAdmin ? false : true
                 },
-
-
             }, {
                 include: [Profile]
             });
-
             res.status(201).json({
                 msg: 'User has been created'
             });
         }
     } catch (e) {
-
+        console.log(e)
     }
 };
-
-
-
-

@@ -28,5 +28,4 @@ Profile.init({
     sequelize,
     modelName: 'profile'
 });
-
 module.exports = Profile;
