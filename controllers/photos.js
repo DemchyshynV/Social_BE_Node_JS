@@ -6,12 +6,13 @@ module.exports.set = async (req, res) => {
         if (req.file) {
             const s = 'resources/' + req.file.path.substring(7);
             console.log(s);
-            await Photos.create({
+            const data = await Photos.create({
                 url: s,
                 user_id: req.user.id
             })
             res.json({
-                success: true
+                success: true,
+                data
             })
         } else {
             res.json({
@@ -28,7 +29,10 @@ module.exports.get = async (req, res) => {
             where:{
                 user_id:req.user.id
             }
-        }).then(value => res.json(value))
+        }).then(value => {
+            console.log(value);
+            return res.json(value)
+        })
 
     } catch (e) {
         errorHandler(res, e);

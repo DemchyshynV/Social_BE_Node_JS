@@ -9,10 +9,18 @@ module.exports.getSenders = async function (req, res) {
         const senders = await Messages.findAll({
             attribute: ['from_id'],
             where: {
-                to_id: myId
+                [Op.or]: {
+                    to_id: myId,
+                    from_id: myId
+                }
             },
             order: [['id', 'DESC']],
-        }).then(value => value.map(value => value.from_id));
+        }).then(value => value.map(value => {
+            if (value.from_id === myId){
+            return value.to_id
+            }
+            return value.from_id
+        }));
         await Profile.findAll({
             attributes: ['id', 'name', 'surname', 'avatar'],
             where: {

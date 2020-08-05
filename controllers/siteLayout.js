@@ -1,7 +1,9 @@
 module.exports.getProfile = async function (req, res) {
     try {
         req.user.getProfile().then(
-            value => res.json(value)
+            value => {
+                return res.json(value)
+            }
         )
     } catch (e) {
         console.log(e)

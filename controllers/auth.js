@@ -6,13 +6,17 @@ const keys = require('../configs/keys');
 
 module.exports.login = async function (req, res) {
     try {
+        console.log(req.body);
         const candidate = JSON.parse(new Buffer.from(req.body, 'base64').toString());
+        console.log(candidate.email);
         const user = await User.findOne({
             where: {
+                // email: candidate.email
                 email: candidate.email
             }
         });
-        if (user !== null) {
+        console.log(user);
+        if (user) {
             const resultPassword = bcrypt.compareSync(candidate.password, user.password);
             if (resultPassword) {
                 const token = jwt.sign(
@@ -20,7 +24,7 @@ module.exports.login = async function (req, res) {
                     keys.jwt.secret,
                     {expiresIn: keys.jwt.expiresIn, algorithm: keys.jwt.algorithm},
                 );
-                res.status(200).json({
+                return res.status(200).json({
                     Authorization: `Bearer ${token}`
                 });
             }

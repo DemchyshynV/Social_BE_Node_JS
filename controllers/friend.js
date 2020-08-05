@@ -15,7 +15,10 @@ module.exports.getAll = async (req, res) => {
             where: {
                 id: {[Op.not]: myFriends}
             }
-        }).then(value => res.json(value))
+        }).then(value => {
+            console.log(value);
+            return res.json(value)
+        })
 
     } catch (e) {
         console.log(e)
@@ -111,6 +114,7 @@ module.exports.myRequests = async (req, res) => {
 
 module.exports.friendsRequest = async (req, res) => {
     try {
+        console.log(req.user.id);
         const allFriends = await Friends.findAll({
             where: {user_id: req.user.id}
         }).then(value => value.map(value => value.friendId));
